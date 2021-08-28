@@ -23,7 +23,7 @@ interface MarkerColor {
         right:20px;
         z-index:99;
       }
-      li{
+      .add-marker, .go-marker, .delete-marker{
         cursor:pointer;
       }
     `
@@ -31,7 +31,7 @@ interface MarkerColor {
 })
 export class MarkersComponent implements AfterViewInit {
 
-  @ViewChild('map') divMapa!: ElementRef;
+  @ViewChild('map') divMap!: ElementRef;
   map!: mapboxgl.Map;
   zoomLevel:number = 15;
   center:[number,number] = [-84.2053, 10.026689];
@@ -43,7 +43,7 @@ export class MarkersComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.map = new mapboxgl.Map({
-      container: this.divMapa.nativeElement,
+      container: this.divMap.nativeElement,
       style: 'mapbox://styles/mapbox/streets-v11',
       center: this.center,
       zoom: this.zoomLevel,
@@ -76,6 +76,10 @@ export class MarkersComponent implements AfterViewInit {
         marker:newMarker
       });
       this.saveMarkersInLocalStorage();
+
+      newMarker.on('dragen',()=>{
+        this.saveMarkersInLocalStorage();
+      })
   }
 
   goMarker(value:mapboxgl.Marker){
@@ -118,8 +122,17 @@ export class MarkersComponent implements AfterViewInit {
       this.markers.push({
         marker: newMarker,
         color: m.color
+      });
+
+      newMarker.on('dragen',()=>{
+        this.saveMarkersInLocalStorage();
       })
     });
+  }
 
+  deleteMarker(index:number){
+    this.markers[index].marker?.remove();
+    this.markers.splice(index,1);
+    this.saveMarkersInLocalStorage();
   }
 }

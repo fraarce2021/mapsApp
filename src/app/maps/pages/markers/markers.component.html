@@ -1,9 +1,18 @@
 <ul class="list-group">
-    <li (click)="addMarker()" class="list-group-item list-group-item-info">
+    <li (click)="addMarker()" class="list-group-item list-group-item-info add-marker">
         + Add
     </li>
-    <li *ngFor="let markerItem of markers; let i = index;" (click)="goMarker(markerItem.marker!)" [ngStyle]="{'background-color':markerItem.color}" class="list-group-item">
-        Marker {{i+1}}
+    <li *ngFor="let markerItem of markers; let i = index;" [ngStyle]="{'background-color':markerItem.color}" class="list-group-item">
+        <div class="row">
+            <div (click)="goMarker(markerItem.marker!)" class="col-8 go-marker">
+                Marker{{i+1}}
+            </div>
+            <div (click)="deleteMarker(i)" class="col-1 delete-marker" style="border-left: 1px solid gray;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+          </svg>
+            </div>
+        </div>
     </li>
 </ul>
 
